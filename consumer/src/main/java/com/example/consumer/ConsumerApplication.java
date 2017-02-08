@@ -1,4 +1,4 @@
-package com.example;
+package com.example.consumer;
 
 import java.util.logging.Logger;
 
@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.messaging.SubscribableChannel;
+
+import com.example.domain.Item;
 
 interface ConsumerChannels {
 	
@@ -34,8 +36,8 @@ public class ConsumerApplication {
 	IntegrationFlow integrationFlow (Logger logger, ConsumerChannels channel) {
 		return IntegrationFlows
 				.from(channel.producer())
-				.handle( String.class, (payload, header)->{
-					logger.info( "new message:" + payload);
+				.handle( Item.class, (payload, header)->{
+					logger.info( "new message:" + payload.getDescription());
 					return null;
 				})
 				.get();
